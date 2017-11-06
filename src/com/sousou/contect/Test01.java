@@ -1,4 +1,4 @@
-package com.sousou.sever;
+package com.sousou.contect;
 
 
 import java.sql.Connection;
@@ -12,28 +12,24 @@ public class Test01 {
         Connection con;
 
         String url = "jdbc:mysql://localhost:3306/sousou";
+
         String user = "kinlon";
         String password = "gdadmin";
 
         try {
-            //1.加载驱动
             Class.forName("com.mysql.jdbc.Driver");
 
-            //2.连接数据库，创建数据库对象
             con = DriverManager.getConnection(url, user, password);
 
-            //3.检测连接状态
             if (!con.isClosed()) {
                 System.out.println("数据库登录成功");
             }
 
-            //4.创建SQL命令对象
             Statement statement = con.createStatement();
 
-            //5.SQL语句访问
             String sql = "select * from mobile_warehouse";
-            ResultSet rs = statement.executeQuery(sql);
 
+            ResultSet rs = statement.executeQuery(sql);
 
             System.out.println("==============");
             System.out.println("手机号\t已注册");
@@ -42,14 +38,12 @@ public class Test01 {
             String mNum;
             boolean mIsUsed;
 
-            //6.读取字段的值
             while (rs.next()) {
                 mIsUsed = rs.getBoolean("IS_USED");
                 mNum = rs.getString("MOBILE_NUM");
                 System.out.println(mNum + "\t" + mIsUsed);
             }
 
-            //7.关闭资源
             rs.close();
             statement.close();
             con.close();
