@@ -1,0 +1,41 @@
+﻿.assistant {
+    display: block;
+    width: 150px;
+    height: 190px;
+    position: absolute;
+    z-index:9999;
+}
+#message {
+    color: #191919;
+    border: 1px solid #c4c4c4;
+    background: #ddd;
+    /*圆角矩形提示框*/
+    border-radius: 5px;
+    min-height: 1em;
+    padding: 5px;
+    top: -30px;
+    position: absolute;
+    z-index: 10000;
+    font-size: 12px;
+    text-align: center;
+    /*根据文本自动调整宽度*/
+    width: auto !important;
+    border-color: #eee;
+    box-shadow: 0 0 15px #eee;
+    outline: none;
+}
+#message element.style {
+    display: none;
+    opacity: 1;
+}
+
+.assistant_girl {
+    width: 150px;
+    height: 190px;
+    /*鼠标可移动*/
+    cursor: move;
+}
+
+.assistant_girl element.style {
+    opacity: 1;
+}

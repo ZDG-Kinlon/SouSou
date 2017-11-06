@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Generator" content="EditPlus®">
+    <meta name="Author" content="Kinlon">
+    <meta name="Keywords" content="AI-assistant">
+    <meta name="Description" content="随机生成对话的小助理，主要使用延时方法window.setTimeout(a,b),和不停循环的延时方法window.setInterval(a,b)">
+    <title>Document</title>
+    <!--助理样式-->
+    <link rel="stylesheet" type="text/css" href="css/assistant.css">
+    <!--jQuery环境-->
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+	<!--助理脚本-->
+    <script type="text/javascript" src="js/assistant.js"></script>
+	<!--主页标记-->
+	<script type="text/javascript">
+		var isindex=true;
+		var title="嗖嗖移动大厅";
+		var visitor="亲爱的嗖友";
+	</script>
+</head>
+<body>
+<!--S 助理-->
+<div id="assistant" class="assistant">
+    <!--上方提示框-->
+    <div id="message" style="display: block; opacity: 1;"></div>
+    <!--AI助理-->
+    <div id="assistant_girl" class="assistant_girl" style="opacity: 1;background: url('images/assistant_girl.png') no-repeat;"></div>
+</div>
+<!--E 助理-->
+</body>
+</html>
