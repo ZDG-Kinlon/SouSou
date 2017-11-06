@@ -1,0 +1,31 @@
+#top{
+	height:50px;
+	width: 100%;
+	background: rgba(196, 230, 190, 0.81);
+	box-shadow: 0px 10px 30px 5px rgba(88, 105, 102, 0.69);
+	position:fixed;
+	z-index: 10000;
+}
+
+#logo{
+	height: 50px;
+	width: 180px;
+	margin: auto 10px;
+	float: left;
+}
+
+#logo_a{
+	line-height: 50px;
+}
+
+#top_user{
+	height: 50px;
+	width: 200px;
+	float: right;
+	margin: auto 10px;
+}
+#top_user_welcome{
+	line-height: 50px;
+}
+
+
