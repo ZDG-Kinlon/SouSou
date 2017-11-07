@@ -161,12 +161,16 @@ public class Resolve {
                 return data[2];
             case "PasswordError":
                 System.err.println("服务端：密码不正确");
+                break;
             case "NoHave":
                 System.err.println("服务端：帐号不存在");
+                break;
             case "IsUsed":
                 System.err.println("服务端：帐号已经被注册");
+                break;
             case "IsLogin":
                 System.err.println("服务端：帐号已经登录，现已经被强制下线");
+                break;
             default:
                 System.err.println("服务端：未知错误");
                 break;
@@ -237,9 +241,6 @@ public class Resolve {
             case "YES":
                 System.err.println("服务端：验证正确");
                 return "OK";
-            case "IsLogin":
-                System.err.println("服务端：帐号已经登录，请下线该帐号");
-                break;
             default:
                 System.err.println("服务端：未知的输出信息");
                 break;

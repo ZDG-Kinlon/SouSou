@@ -1,5 +1,7 @@
 package com.sousou.sever;
 
+import java.text.DecimalFormat;
+
 /**
  * 服务端与数据库之间的通信类，SQL语句的集合类
  */
@@ -8,6 +10,7 @@ public class Function {
     private StringBuilder sb;
     private SQL sql;
     private String[][] result;
+    private DecimalFormat df = new DecimalFormat("#.00");
 
     public Function() {
         //初始化数据库访问
@@ -62,6 +65,10 @@ public class Function {
             case "MobileStop":
                 return MobileStop(clientMsg);
 
+            //重置密码
+            case "RePassword":
+                return RePassword(clientMsg);
+
             //命令专区
             case "LogOut":
                 return "Data" + LogOut(clientMsg);
@@ -73,8 +80,7 @@ public class Function {
                 return "Data" + GetComboType();
             case "GetUserInfo":
                 return "Data" + GetUserInfo(clientMsg);
-            case "RePassword":
-                return "Data" + RePassword(clientMsg);
+
 
             default:
                 return null;
@@ -218,10 +224,10 @@ public class Function {
         String[][] userInfo = sql.getMobileByUser(data[1]);
         //密码验证
         if (!userInfo[0][1].equals(data[2])) {
-            return "Data【参数符】Error【参数符】无权限访问用户的注册数据";
+            return "【参数符】Error【参数符】无权限访问用户的注册数据";
+        }else {
+            return "【参数符】All【参数符】" + strArr2str(userInfo, "【分列符】", "【分行符】");
         }
-        return "Data【参数符】All【参数符】" + strArr2str(userInfo, "【分列符】", null);
-
     }
 
     /**
@@ -298,16 +304,16 @@ public class Function {
         //5.给帐号重置套餐
 
         //获取用户选择的套餐信息
-        String[][] comboInfo = sql.getCombo(data[4]);
+        String[] comboInfo = sql.getCombo(data[4])[0];
         //检查用户的余额是否足够支付新套餐
-        double money = Double.parseDouble(data[5]) - Double.parseDouble(comboInfo[0][2]);
+        double money = Double.parseDouble(data[5]) - Double.parseDouble(comboInfo[2]);
         if (money < 0) {
             return "ChangeCombo【参数符】Money";
         }
         //执行支付套餐操作，余额减少，套餐剩余信息重置
-        sql.setUserCombo(data[1], data[3], String.valueOf(money), comboInfo[0][3], comboInfo[0][4], comboInfo[0][5]);
+        sql.setUserCombo(data[1], data[4], String.valueOf(money), comboInfo[3], comboInfo[4], comboInfo[5]);
         //消费记录表中添加信息
-        sql.addMobileLog(data[1], "月租", comboInfo[0][1]);
+        sql.addMobileLog(data[1], "月租", comboInfo[1]);
         sql.addMobileLog(data[1], "余额", String.valueOf(money));
 
         //6.反馈消息
@@ -332,9 +338,10 @@ public class Function {
                 if (getResult()[0][1].equals("0")) {
                     return "RePassword【参数符】NoUsed";
                 }
+                setResult(sql.getMobileByUser(data[2]));
                 //登陆状态验证，操作必须在离线状态完成
                 if (!getResult()[0][2].equals("0")) {
-                    return "RePassword【参数符】IsLogin";
+                    sql.setMobileOnOffLine(data[2],false);
                 }
                 //验证姓名和手机号匹配
                 setResult(sql.getMobileByUser(data[2]));
@@ -353,9 +360,10 @@ public class Function {
                 if (getResult()[0][1].equals("0")) {
                     return "RePassword【参数符】NoUsed";
                 }
+                setResult(sql.getMobileByUser(data[2]));
                 //登陆状态验证，操作必须在离线状态完成
                 if (!getResult()[0][2].equals("0")) {
-                    return "RePassword【参数符】IsLogin";
+                    sql.setMobileOnOffLine(data[2],false);
                 }
                 //验证姓名和手机号匹配
                 setResult(sql.getMobileByUser(data[2]));
@@ -381,7 +389,7 @@ public class Function {
             //获取还没有使用的帐号，随机获取
             setResult(sql.getMobileNoUsed(data[1]));
             //拼接获取到的帐号
-            return "【参数符】All【参数符】" + strArr2str(getResult(), "【分列符】", null);
+            return "【参数符】All【参数符】" + strArr2str(getResult(), "【分行符】", null);
         } else {
             return "【参数符】Error【参数符】Err:count";
         }
@@ -400,7 +408,7 @@ public class Function {
         String[] overMoney = sql.getComboOverMoney()[0];//获取超出的收费标准
 
         //获取用户的消费信息
-        double money = Integer.parseInt(userInfo[5]);
+        double money = Double.parseDouble(userInfo[5]);
         int userCall = Integer.parseInt(userInfo[6]);
         int userMess = Integer.parseInt(userInfo[7]);
         int userFlow = Integer.parseInt(userInfo[8]);

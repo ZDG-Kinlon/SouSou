@@ -67,7 +67,7 @@ public class Function {
             System.out.println("口口口口口口口口口口口口口口口口口口口");
             System.out.println("口口口口口口口口口口口口口口口口口口口");
             //开启二级主界面
-            SouSou_Client_Login main = new SouSou_Client_Login(userInfo);
+            SouSou_Client_Login main = new SouSou_Client_Login(userInfo,password);
             main.main(input);
         }
         //没有登录成功
@@ -97,13 +97,19 @@ public class Function {
         r = rc[0];
         //获取输入信息
         do {
-            System.out.println("请选择一个编号，或输入一个手机号");
+            System.out.print("请选择一个编号，或输入一个手机号：");
             String inputTemp = input.next();
             if (inputTemp.length() < 11) {
                 //输入的是编号
-                if (RegexCheck.isInteger(inputTemp)) {
-                    mobileNum = dataArr[r][1];
-                    break;
+                if (RegexCheck.isPInteger(inputTemp)) {
+                    int selectNum=Integer.parseInt(inputTemp);
+                    if(selectNum<=r & selectNum>0){
+                        mobileNum = dataArr[selectNum-1][0];
+                        System.out.println("选择的手机号为["+mobileNum+"]");
+                        break;
+                    }else{
+                        System.err.println("输入的编号超出范围，请重试");
+                    }
                 } else {
                     System.err.println("输入的编号错误，请重试");
                 }
@@ -139,7 +145,7 @@ public class Function {
         //E    2.输入密码
 
         //S    3.输入姓名
-        System.out.print("请输入姓名：");
+        System.out.print("请输入姓名（请自行脑补这里输入了身份证并通过了验证）：");
         name = input.next();
         //E    3.输入姓名
 
@@ -148,13 +154,14 @@ public class Function {
         data = obj.cmd(ctt.send("GetComboType"));
         dataArr = str2arr(data);
         //输出套餐信息
+        System.out.println("编号\t名称\t月租[元/月]\t通话时长[分]\t短信条数[条]\t上网流量[GB]");
         rc = strArrPrint(dataArr, null);
         r = rc[0];
         //开始选择并输入
         do {
             System.out.print("\n请输入套餐编号：");
             comboType = input.next();
-            if (RegexCheck.isInteger(comboType)) {
+            if (RegexCheck.isPInteger(comboType)) {
                 if (r >= Integer.parseInt(comboType)) {
                     break;
                 } else {
@@ -222,11 +229,16 @@ public class Function {
             mobileNum = input.next();
 
             //姓名输入
-            System.out.print("请输入手机号注册的姓名：");
+            System.out.print("请输入手机号注册的姓名(请自行脑补这里有个身份证验证)：");
             name = input.next();
 
             //生成向服务端发送的信息字符串（重置密码识别符："RePassword"），1验证信息
-            if (obj.cmd(ctt.send("RePassword【参数符】1【参数符】" + mobileNum + "【参数符】" + name)).equals("OK")) {
+            if (obj.cmd(ctt.send("RePassword【参数符】1【参数符】" + mobileNum + "【参数符】" + name))==null) {
+                System.err.println("请输入任意字符后重试，或输入\"exit\"退出");
+                if (input.next().equals("exit")) {
+                    break;
+                }
+            } else {
                 //新密码输入
                 do {
                     System.out.print("请输入新密码【未能实现输入时显示\"*\"】：");
@@ -247,11 +259,6 @@ public class Function {
                     if (input.next().equals("exit")) {
                         break;
                     }
-                }
-            } else {
-                System.err.println("服务器：输入的手机号和姓名不正确，请输入任意字符后重试，或输入\"exit\"退出");
-                if (input.next().equals("exit")) {
-                    break;
                 }
             }
         } while (true);
@@ -287,7 +294,8 @@ public class Function {
      */
     public void getMobileInfo(String mobileNum, String password) {
         //请求数据
-        strArrPrint(str2arr(obj.cmd(ctt.send("MobileLog【参数符】" + mobileNum + "【参数符】" + password))), ".\t");
+        System.out.println("编号\t\t手机号\t\t时间\t\t\t\t类型\t\t说明");
+        strArrPrint(str2arr(obj.cmd(ctt.send("MobileLog【参数符】" + mobileNum + "【参数符】" + password))), ".\t\t");
     }
 
     /**
@@ -311,12 +319,15 @@ public class Function {
         //2.随机选取一个环境useItem，0=使用类型;1=使用量;2=使用描述
         Random rd = new Random();
         int rdSelect = rd.nextInt(emu.length);
+        System.out.println(emu[rdSelect][2]);
         String[] useItem = emu[rdSelect];
         //3.发送使用请求
         String re = obj.cmd(ctt.send("Use【参数符】0【参数符】" + mobileNum + "【参数符】" + password + "【参数符】" + useItem[0] + "【参数符】" + useItem[1]));
-        if (re == null) {
+        if (re == null || re.equals("NoEnvMoney") | re.equals("Password") | re.equals("IsLogin")) {
+            //欠费状态异常未使用
             return false;
         } else {
+            //可以使用需要提示验证
             System.out.print("是否继续[Y继续/exit放弃]：");
             if (input.next().equals("exit")) {
                 return true;
@@ -436,13 +447,14 @@ public class Function {
      * @return 新套餐名称，密码，登录状态，姓名，套餐编号，余额，时长，短信，流量
      */
     public String[] upDataUser(String mobileNum, String password) {
-        String[][] userInfo = str2arr(obj.cmd(ctt.send("GetUserInfo【参数符】" + mobileNum + "【参数符】" + password)));
-        String[][] comboinfo = str2arr(obj.cmd(ctt.send("GetComboType")));
-        int comboNum = Integer.parseInt(userInfo[0][4]);
-        String comboName = comboinfo[comboNum][1];
+        String temp=obj.cmd(ctt.send("GetUserInfo【参数符】" + mobileNum + "【参数符】" + password));
+        String[] userInfo = str2arr(temp)[0];
+        String[][] comboInfo = str2arr(obj.cmd(ctt.send("GetComboType")));
+        int comboNum = Integer.parseInt(userInfo[4]);
+        String comboName = comboInfo[comboNum-1][1];
         String[] re = new String[9];
+        System.arraycopy(userInfo, 0, re, 0, 9);
         re[0] = comboName;
-        System.arraycopy(userInfo[0], 0, re, 0, 9);
         return re;
     }
 
@@ -468,7 +480,7 @@ public class Function {
                     if (m == c - 1) {
                         System.out.print(aStrArr[m] + "\n");
                     } else {
-                        System.out.print(aStrArr[m] + "\t");
+                        System.out.print(aStrArr[m] + "\t\t");
                     }
                 }
             }
@@ -478,7 +490,7 @@ public class Function {
                     if (m == c - 1) {
                         System.out.print(aStrArr[m] + "\n");
                     } else {
-                        System.out.print(aStrArr[m] + "\t");
+                        System.out.print(aStrArr[m] + "\t\t");
                     }
                 }
             }

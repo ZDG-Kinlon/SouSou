@@ -159,7 +159,7 @@ public class SQL {
                 "UPDATE\n" +
                 "user\n" +
                 "SET\n" +
-                "user.USECALL = " + newValue + ",\n" +
+                "user.USECALL = \"" + newValue + "\"\n" +
                 "WHERE\n" +
                 "user.MOBILE_NUM = " + mobileNum
         );
@@ -176,7 +176,7 @@ public class SQL {
                 "UPDATE\n" +
                 "user\n" +
                 "SET\n" +
-                "user.USEMESS = " + newValue + ",\n" +
+                "user.USEMESS = \"" + newValue + "\"\n" +
                 "WHERE\n" +
                 "user.MOBILE_NUM = " + mobileNum
         );
@@ -193,7 +193,7 @@ public class SQL {
                 "UPDATE\n" +
                 "user\n" +
                 "SET\n" +
-                "user.USEFLOW = " + newValue + ",\n" +
+                "user.USEFLOW = \"" + newValue + "\"\n" +
                 "WHERE\n" +
                 "user.MOBILE_NUM = " + mobileNum
         );
@@ -210,7 +210,7 @@ public class SQL {
                 "UPDATE\n" +
                 "user\n" +
                 "SET\n" +
-                "user.MONEY = " + newValue + ",\n" +
+                "user.MONEY = \"" + String.format(newValue, "%.3f") + "\"\n" +
                 "WHERE\n" +
                 "user.MOBILE_NUM = " + mobileNum
         );
@@ -228,7 +228,7 @@ public class SQL {
                 "INSERT INTO \n" +
                 "mobile_log \n" +
                 "VALUES \n" +
-                "( \"" + mobileNum + "\",\"" + Log.getNow() + "\"" + type + "\"" + info + "\")"
+                "( \"" + mobileNum + "\",\"" + Log.getNow() + "\",\"" + type + "\",\"" + info + "\")"
         );
     }
 
@@ -244,9 +244,9 @@ public class SQL {
     public void addUser(String mobileNum, String password, String name, String comboNum, String money) {
         db.runSQL("" +
                 "INSERT INTO \n" +
-                "USER \n" +
+                "user \n" +
                 "VALUES \n" +
-                "( \"" + mobileNum + "\", \"" + password + "\", 0, \"" + name + "\", " + comboNum + ", " + money + " , 0, 0, 0,)"
+                "( \"" + mobileNum + "\", \"" + password + "\", 0, \"" + name + "\", " + comboNum + ", " + money + " , 0, 0, 0)"
         );
     }
 
@@ -344,9 +344,9 @@ public class SQL {
                 "UPDATE\n" +
                 "user\n" +
                 "SET\n" +
-                "user.`PASSWORD` = " + password + "\n" +
+                "user.`PASSWORD` = \"" + password + "\"\n" +
                 "WHERE\n" +
-                "user.MOBILE_NUM = " + mobileNum
+                "user.MOBILE_NUM = \"" + mobileNum +"\""
         );
     }
 

@@ -29,54 +29,58 @@ public class SouSou_Client {
             //使用正则表达式测试输入的是否为正整数，正确返回true
             if (RegexCheck.isPInteger(str)) {
                 select = Integer.parseInt(str);
-                switch (select) {
-                    case 1:
-                        System.out.println("开始执行------------用户登录------------");
-                        obj.login(input);
-                        System.out.println("执行完毕------------用户登录------------");
-                        break;
-                    case 2:
-                        System.out.println("开始执行------------用户注册------------");
-                        obj.signup(input);
-                        System.out.println("执行完毕------------用户注册------------");
-                        break;
-                    case 3:
-                        System.out.println("开始执行------------资费说明------------");
-                        obj.comboInfoAll();
-                        System.out.println("执行完毕------------资费说明------------");
-                        break;
-                    case 4:
-                        System.out.println("开始执行------------重置密码------------");
-                        obj.rePassword(input);
-                        System.out.println("执行完毕------------重置密码------------");
-                        break;
-                    case 5:
-                        System.out.println("欢迎下次光临-------::嗖嗖移动业务大厅::-------");
-                        System.out.println("嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖");
-                        System.out.println("嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖");
-                        System.out.println("嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖");
-                        System.out.println("嗖嗖嗖嗖口口口口嗖口口口口口口嗖嗖嗖嗖嗖口口口口嗖口口口口口口嗖嗖嗖嗖");
-                        System.out.println("嗖口口口口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖口口口口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
-                        System.out.println("嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
-                        System.out.println("嗖嗖嗖嗖口嗖嗖嗖嗖口口口口口口嗖嗖嗖嗖嗖口嗖嗖嗖嗖口口口口口口嗖嗖嗖嗖");
-                        System.out.println("嗖口口口口口口口嗖嗖嗖口嗖嗖嗖嗖嗖口口口口口口口嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
-                        System.out.println("嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
-                        System.out.println("嗖嗖嗖嗖口嗖嗖嗖嗖口口口口口口嗖嗖嗖嗖嗖口嗖嗖嗖嗖口口口口口口嗖嗖嗖嗖");
-                        System.out.println("嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
-                        System.out.println("嗖口口口口口口口嗖嗖嗖口嗖嗖嗖嗖嗖口口口口口口口嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
-                        System.out.println("嗖嗖嗖嗖口嗖嗖嗖口口口口口口口口嗖嗖嗖嗖口嗖嗖嗖口口口口口口口口嗖嗖嗖");
-                        System.out.println("嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
-                        System.out.println("嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
-                        System.out.println("嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
-                        System.out.println("嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
-                        System.out.println("嗖口嗖嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
-                        System.out.println("嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖");
-                        System.out.println("嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖");
-                        System.exit(0);
-                        break;
-                    default:
-                        System.err.println("[" + str + "]不在选项功能中，请重试");
-                        break;
+                if(select<10) {
+                    switch (select) {
+                        case 1:
+                            System.out.println("开始执行------------用户登录------------");
+                            obj.login(input);
+                            System.out.println("执行完毕------------用户登录------------");
+                            break;
+                        case 2:
+                            System.out.println("开始执行------------用户注册------------");
+                            obj.signup(input);
+                            System.out.println("执行完毕------------用户注册------------");
+                            break;
+                        case 3:
+                            System.out.println("开始执行------------资费说明------------");
+                            obj.comboInfoAll();
+                            System.out.println("执行完毕------------资费说明------------");
+                            break;
+                        case 4:
+                            System.out.println("开始执行------------重置密码------------");
+                            obj.rePassword(input);
+                            System.out.println("执行完毕------------重置密码------------");
+                            break;
+                        case 5:
+                            System.out.println("欢迎下次光临-------::嗖嗖移动业务大厅::-------");
+                            System.out.println("嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖");
+                            System.out.println("嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖");
+                            System.out.println("嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖");
+                            System.out.println("嗖嗖嗖嗖口口口口嗖口口口口口口嗖嗖嗖嗖嗖口口口口嗖口口口口口口嗖嗖嗖嗖");
+                            System.out.println("嗖口口口口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖口口口口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
+                            System.out.println("嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
+                            System.out.println("嗖嗖嗖嗖口嗖嗖嗖嗖口口口口口口嗖嗖嗖嗖嗖口嗖嗖嗖嗖口口口口口口嗖嗖嗖嗖");
+                            System.out.println("嗖口口口口口口口嗖嗖嗖口嗖嗖嗖嗖嗖口口口口口口口嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
+                            System.out.println("嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
+                            System.out.println("嗖嗖嗖嗖口嗖嗖嗖嗖口口口口口口嗖嗖嗖嗖嗖口嗖嗖嗖嗖口口口口口口嗖嗖嗖嗖");
+                            System.out.println("嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
+                            System.out.println("嗖口口口口口口口嗖嗖嗖口嗖嗖嗖嗖嗖口口口口口口口嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
+                            System.out.println("嗖嗖嗖嗖口嗖嗖嗖口口口口口口口口嗖嗖嗖嗖口嗖嗖嗖口口口口口口口口嗖嗖嗖");
+                            System.out.println("嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
+                            System.out.println("嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
+                            System.out.println("嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
+                            System.out.println("嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
+                            System.out.println("嗖口嗖嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖嗖嗖口嗖嗖嗖嗖嗖嗖嗖");
+                            System.out.println("嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖");
+                            System.out.println("嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖嗖");
+                            System.exit(0);
+                            break;
+                        default:
+                            System.err.println("[" + str + "]不在选项功能中，请重试");
+                            break;
+                    }
+                }else{
+                    System.err.println("[" + str + "]不是正确的选项，请重试");
                 }
             } else {
                 System.err.println("[" + str + "]不是正确的选项，请重试");

@@ -28,12 +28,12 @@ public class SouSou_Client_Login {
      *
      * @param userInfo
      */
-    public SouSou_Client_Login(String userInfo) {
+    public SouSou_Client_Login(String userInfo,String password) {
         this();
         String[] tempArr = userInfo.split("【分列符】");
         this.mobileNum = tempArr[0];
         this.name = tempArr[1];
-        this.password = tempArr[2];
+        this.password = password;
         this.comboType = tempArr[3];
         this.money = tempArr[4];
         this.call = tempArr[5];
@@ -51,7 +51,7 @@ public class SouSou_Client_Login {
         //更新信息
         String[] re = obj.upDataUser(mobileNum, password);
         this.name = re[3];
-        this.password = re[1];
+        this.password = password;
         this.comboType = re[0];
         this.money = re[5];
         this.call = re[6];
@@ -84,7 +84,7 @@ public class SouSou_Client_Login {
             System.out.println("剩余短信(条)：\t" + this.mess);
             System.out.println("剩余流量(GB)：\t" + this.flow);
             System.out.println("----------------------------------");
-            System.out.println("1.本月账单查询\n2使用嗖嗖\n3话费充值\\n4.套餐表更\n5.办理退网\n6.帐号登出");
+            System.out.println("1.本月账单查询\n2.使用嗖嗖\n3.话费充值\n4.套餐表更\n5.办理退网\n6.帐号登出");
             System.out.print("请选择：");
             str = input.next();
             if (RegexCheck.isInteger(str)) {
