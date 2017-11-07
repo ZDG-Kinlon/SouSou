@@ -84,7 +84,7 @@ public class SouSou_Client_Login {
             System.out.println("剩余短信(条)：\t" + this.mess);
             System.out.println("剩余流量(GB)：\t" + this.flow);
             System.out.println("----------------------------------");
-            System.out.println("1.本月账单查询\n2.使用嗖嗖\n3.话费充值\n4.套餐表更\n5.办理退网\n6.帐号登出");
+            System.out.println("1.本月账单查询\n2.使用嗖嗖\n3.话费充值\n4.套餐变更\n5.办理退网\n6.帐号登出");
             System.out.print("请选择：");
             str = input.next();
             if (RegexCheck.isInteger(str)) {
@@ -113,7 +113,10 @@ public class SouSou_Client_Login {
                         break;
                     case 4:
                         System.out.println("开始执行--------------套餐变更-------------");
-                        if (obj.changeCombo(input, this.mobileNum, this.password)) {
+                        String re=obj.changeCombo(input, this.mobileNum, this.password);
+                        if (re==null) {
+                            return;
+                        }else if(re.equals("OK")){
                             update(this.mobileNum, password);
                         }
                         System.out.println("执行完毕--------------套餐变更-------------");

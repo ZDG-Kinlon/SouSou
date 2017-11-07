@@ -146,13 +146,13 @@ public class Function {
     private String MobileLog(String[] data) {
         //获取当前帐号的信息
         sql.getMobileByUser(data[1]);
-        String[][] userInfo = sql.getMobileByUser(data[1]);
+        String[] userInfo = sql.getMobileByUser(data[1])[0];
         //密码验证
-        if (!userInfo[0][1].equals(data[2])) {
+        if (!userInfo[1].equals(data[2])) {
             return "【参数符】Error【参数符】密码错误";
         }
         //登陆状态验证，操作必须在登陆后下完成
-        if (!userInfo[0][2].equals("1")) {
+        if (!userInfo[2].equals("1")) {
             return "【参数符】Error【参数符】未登录";
         }
         return "【参数符】All【参数符】" + strArr2str(sql.getMobileLog(data[1]), "【分列符】", "【分行符】");
@@ -184,33 +184,33 @@ public class Function {
      */
     private String ChangeCombo(String[] data) {
         //获取当前帐号的信息
-        sql.getMobileByUser(data[1]);
-        String[][] userInfo = sql.getMobileByUser(data[1]);
+        String[] userInfo = sql.getMobileByUser(data[1])[0];
         //密码验证
-        if (!userInfo[0][1].equals(data[2])) {
+        if (!userInfo[1].equals(data[2])) {
             return "ChangeCombo【参数符】Password";
         }
         //登陆状态验证，操作必须在登陆后下完成
-        if (!userInfo[0][2].equals("1")) {
+        if (!userInfo[2].equals("1")) {
             return "ChangeCombo【参数符】IsLogin";
         }
         //套餐验证
-        if (userInfo[0][4].equals(data[3])) {
+        if (userInfo[4].equals(data[3])) {
             return "ChangeCombo【参数符】Equal";
         } else {
             //获取用户选择的套餐信息
-            String[][] comboInfo = sql.getCombo(data[3]);
+            String[] comboInfo = sql.getCombo(data[3])[0];
             //检查用户的余额是否足够支付新套餐
-            double money = Double.parseDouble(userInfo[0][5]) - Double.parseDouble(comboInfo[0][2]);
+            double money = Double.parseDouble(userInfo[5]) - Double.parseDouble(comboInfo[2]);
             if (money < 0) {
                 return "ChangeCombo【参数符】Money";
             }
             //执行支付套餐操作，余额减少，套餐剩余信息重置
-            sql.setUserCombo(data[1], data[3], String.valueOf(money), comboInfo[0][3], comboInfo[0][4], comboInfo[0][5]);
+            sql.setUserCombo(data[1], data[3], String.valueOf(money), comboInfo[3], comboInfo[4], comboInfo[5]);
             //消费记录表中添加信息
-            sql.addMobileLog(data[1], "月租", comboInfo[0][1] + ";扣费" +String.valueOf(Math.round(money * 100.0) / 100.0));
+            sql.addMobileLog(data[1], "月租", String.valueOf(Math.round(Double.parseDouble(comboInfo[2]) * 100.0) / 100.0));
+            sql.addMobileLog(data[1], "余额", String.valueOf(Math.round(money * 100.0) / 100.0));
+            return "ChangeCombo【参数符】OK";
         }
-        return null;
     }
 
     /**

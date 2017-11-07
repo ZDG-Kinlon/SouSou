@@ -145,7 +145,7 @@ public class Function {
         //E    2.输入密码
 
         //S    3.输入姓名
-        System.out.print("请输入姓名（请自行脑补这里输入了身份证并通过了验证）：");
+        System.out.print("请输入姓名（请自行脑补这里完成了身份证实名认证）：");
         name = input.next();
         //E    3.输入姓名
 
@@ -297,7 +297,7 @@ public class Function {
      */
     public void getMobileInfo(String mobileNum, String password) {
         //请求数据
-        System.out.println("编号\t\t手机号\t\t时间\t\t\t\t类型\t\t说明");
+        System.out.println("编号\t\t手机号\t\t时间\t\t\t\t类型\t\t说明【通话(分)/短信(条)/流量(GB)/余额(元)/月租(元)】");
         strArrPrint(str2arr(obj.cmd(ctt.send("MobileLog【参数符】" + mobileNum + "【参数符】" + password))), ".\t\t");
     }
 
@@ -351,17 +351,17 @@ public class Function {
      * @param input
      * @param mobileNum 当前用户
      */
-    public boolean changeCombo(Scanner input, String mobileNum, String password) {
+    public String changeCombo(Scanner input, String mobileNum, String password) {
         String[][] comboInfo;
         String comboSelect;
-        System.out.print("变更套餐会清空当前套餐的信息，剩余内容不会被新套餐继承，输入\"Y\"继续，其他退出:");
+        System.out.print("变更套餐会清空当前套餐的信息\n剩余内容不会被新套餐继承\n输入\"Y\"继续，其他退出:");
         if (input.next().equals("Y")) {
             //向服务端请求全部的套餐种类，并输出
             comboInfo = str2arr(obj.cmd(ctt.send("GetComboType")));
             int r = strArrPrint(comboInfo, null)[0];
             //开始选择并输入
             do {
-                System.out.print("\n请输入套餐编号：");
+                System.out.print("请输入套餐编号：");
                 comboSelect = input.next();
                 if (RegexCheck.isInteger(comboSelect)) {
                     if (r >= Integer.parseInt(comboSelect)) {
@@ -371,13 +371,13 @@ public class Function {
                                 //输入的套餐一致
                                 System.err.println("请输入任意字符后重试，或输入\"exit\"退出");
                                 if (input.next().equals("exit")) {
-                                    break;
+                                    return "back";
                                 }
                                 break;
                             case "Money":
                                 System.err.println("请输入任意字符后重试，或输入\"exit\"退出");
                                 if (input.next().equals("exit")) {
-                                    break;
+                                    return "back";
                                 }
                                 break;
                             case "Password":
@@ -387,7 +387,7 @@ public class Function {
                             case "OK":
                                 System.out.println("套餐变更成功");
                                 //执行成功，主页更新
-                                return true;
+                                return "OK";
                             default:
                                 System.err.println("未知消息");
                                 break;
@@ -400,7 +400,7 @@ public class Function {
                 }
             } while (true);
         }
-        return false;
+        return null;
     }
 
 

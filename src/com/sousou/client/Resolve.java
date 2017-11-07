@@ -28,7 +28,7 @@ public class Resolve {
             case "ChangeCombo":
                 return ChangeCombo(severMsg);
             case "AddMoney":
-                AddMoney(severMsg);
+                return AddMoney(severMsg);
             case "Use":
                 return Use(severMsg);
             case "Data":
@@ -96,7 +96,6 @@ public class Resolve {
         switch (data[1]) {
             case "OK":
                 System.out.println("服务端：执行成功");
-                data[3]= String.valueOf(Math.round(Double.parseDouble(data[3])*100.0)/100.0);
                 switch (data[2]) {
                     case "Call":
                         System.out.println("服务端：当前套餐中的【通话时长】还有：" + data[3]);
@@ -108,6 +107,7 @@ public class Resolve {
                         System.out.println("服务端：当前套餐中的【剩余流量】还有：" + data[3]);
                         return "Flow";
                     case "Money":
+                        data[3]= String.valueOf(Math.round(Double.parseDouble(data[3])*100.0)/100.0);
                         System.out.println("服务端：当前套餐中的【剩余金额】还有：" + data[3]);
                         return "Money";
                     default:
@@ -270,7 +270,7 @@ public class Resolve {
                 System.err.println("服务端：余额不足，未执行修改");
                 return "Money";
             case "OK":
-                System.out.println("服务端：修改成功");
+                System.out.println("服务端：套餐修改成功");
                 return "OK";
             case "IsLogin":
                 System.err.println("服务端：修改套餐需要在帐号上线才能执行");

@@ -62,6 +62,7 @@ public class ServerThread extends Thread {
             Log.log("消息接收", temp);
             //5.执行客户端发来的消息，并准备反馈客户端
             String recoverMsg = obj.cmd(temp);
+
             //6.消息反馈
             os.write(recoverMsg.getBytes());
             Log.log("消息发出", recoverMsg);
