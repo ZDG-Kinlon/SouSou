@@ -274,11 +274,14 @@ public class Function {
     public boolean mobileStop(Scanner input, String mobileNum, String password) {
         System.err.print("【警告】该操作会删除当前账户，无法恢复，请知悉！\n[请输入帐号" + mobileNum + "绑定的使用者的姓名]：");
         String name = input.next();
-        System.out.print("即将执行【删除】帐号[" + mobileNum + "]，请输入\"执行\"，如果需要放弃，请输入任意字符：");
+        System.out.print("即将执行【删除】帐号[" + mobileNum + "]，请输入\"执行\"\n如果需要放弃，请输入任意字符：");
         if (input.next().equals("执行")) {
-            if (obj.cmd(ctt.send("MobileStop【参数符】" + mobileNum + "【参数符】" + password + "【参数符】" + name)).equals("OK")) {
+            String re=obj.cmd(ctt.send("MobileStop【参数符】" + mobileNum + "【参数符】" + password + "【参数符】" + name));
+            if (re==null) {
+                return false;
+            } else  if(re.equals("OK")){
                 return true;
-            } else {
+            }else{
                 return false;
             }
         } else {
@@ -407,7 +410,10 @@ public class Function {
      * @param mobileNum
      */
     public void logOut(String mobileNum, String password) {
-        if (obj.cmd(ctt.send("LogOut【参数符】" + mobileNum + "【参数符】" + password)).equals("OK")) {
+        String re=obj.cmd(ctt.send("LogOut【参数符】" + mobileNum + "【参数符】" + password));
+        if (re==null) {
+            System.err.println("服务端：下线失败");
+        }else if(re.equals("OK")){
             System.out.println("服务端：下线成功");
         }
     }

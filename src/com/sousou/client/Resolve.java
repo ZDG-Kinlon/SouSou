@@ -53,16 +53,16 @@ public class Resolve {
     private String MobileStop(String[] data) {
         switch (data[1]) {
             case "Password":
-                System.err.print("服务端：密码错误");
+                System.err.println("服务端：密码错误");
                 return null;
             case "name":
-                System.err.print("服务端：姓名错误");
+                System.err.println("服务端：姓名错误");
                 return null;
             case "IsOffline":
-                System.err.print("服务端：帐号掉线");
+                System.err.println("服务端：帐号掉线");
                 return null;
             case "OK":
-                System.out.print("服务端：帐号删除执行成功");
+                System.out.println("服务端：帐号删除执行成功");
                 return "OK";
             default:
                 return null;
@@ -165,6 +165,9 @@ public class Resolve {
                 break;
             case "NoHave":
                 System.err.println("服务端：帐号不存在");
+                break;
+            case "NoSignup":
+                System.err.println("服务端：帐号未注册");
                 break;
             case "IsUsed":
                 System.err.println("服务端：帐号已经被注册");

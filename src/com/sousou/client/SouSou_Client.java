@@ -27,7 +27,7 @@ public class SouSou_Client {
             System.out.print("请选择：");
             str = input.next();
             //使用正则表达式测试输入的是否为正整数，正确返回true
-            if (RegexCheck.isPInteger(str)) {
+            if (RegexCheck.isPInteger(str)&str.length()<3) {
                 select = Integer.parseInt(str);
                 if(select<10) {
                     switch (select) {

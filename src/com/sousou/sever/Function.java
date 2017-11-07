@@ -106,7 +106,7 @@ public class Function {
             return "MobileStop【参数符】name";
         }
         //登陆状态验证，操作必须在登陆后下完成
-        if (!userInfo[2].equals("0")) {
+        if (userInfo[2].equals("0")) {
             return "MobileStop【参数符】IsOffline";
         } else {
             sql.deleteMobile(data[1]);
@@ -123,13 +123,13 @@ public class Function {
     private String LogOut(String[] data) {
         //获取当前帐号的信息
         sql.getMobileByUser(data[1]);
-        String[][] userInfo = sql.getMobileByUser(data[1]);
+        String[] userInfo = sql.getMobileByUser(data[1])[0];
         //密码验证
-        if (!userInfo[0][1].equals(data[2])) {
+        if (!userInfo[1].equals(data[2])) {
             return "【参数符】Error【参数符】密码错误";
         }
         //登陆状态验证，操作必须在登陆后下完成
-        if (!userInfo[0][2].equals("0")) {
+        if (userInfo[2].equals("0")) {
             return "【参数符】Error【参数符】已下线";
         } else {
             sql.setMobileOnOffLine(data[1], false);
