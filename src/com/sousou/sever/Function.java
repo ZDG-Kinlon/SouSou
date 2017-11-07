@@ -172,7 +172,7 @@ public class Function {
         double money = Double.parseDouble(df.format(Double.parseDouble(userInfo[5])));
         money += Double.parseDouble(data[2]);
         sql.setMoney(data[1], String.valueOf(money));
-        sql.addMobileLog(data[1], "充值", String.valueOf(money));
+        sql.addMobileLog(data[1], "充值", String.valueOf(Math.round(money * 100.0) / 100.0));
         return "AddMoney【参数符】OK【参数符】" + data[1] + "【参数符】" + money;
     }
 
@@ -208,7 +208,7 @@ public class Function {
             //执行支付套餐操作，余额减少，套餐剩余信息重置
             sql.setUserCombo(data[1], data[3], String.valueOf(money), comboInfo[0][3], comboInfo[0][4], comboInfo[0][5]);
             //消费记录表中添加信息
-            sql.addMobileLog(data[1], "月租", comboInfo[0][1] + ";扣费" + String.valueOf(money));
+            sql.addMobileLog(data[1], "月租", comboInfo[0][1] + ";扣费" +String.valueOf(Math.round(money * 100.0) / 100.0));
         }
         return null;
     }
@@ -313,8 +313,8 @@ public class Function {
         //执行支付套餐操作，余额减少，套餐剩余信息重置
         sql.setUserCombo(data[1], data[4], String.valueOf(money), comboInfo[3], comboInfo[4], comboInfo[5]);
         //消费记录表中添加信息
-        sql.addMobileLog(data[1], "月租", comboInfo[1]);
-        sql.addMobileLog(data[1], "余额", String.valueOf(money));
+        sql.addMobileLog(data[1], "月租", String.valueOf(Math.round(Double.parseDouble(comboInfo[2]) * 100.0) / 100.0));
+        sql.addMobileLog(data[1], "余额", String.valueOf(Math.round(money * 100.0) / 100.0));
 
         //6.反馈消息
         return "Signup【参数符】OK";
@@ -506,7 +506,7 @@ public class Function {
                                 //用户剩余话费充足，执行SQL
                                 sql.setMoney(data[2], String.valueOf(money));
                                 sql.addMobileLog(data[2], "通话", String.valueOf(used));
-                                sql.addMobileLog(data[2], "余额", String.valueOf(money));
+                                sql.addMobileLog(data[2], "余额", String.valueOf(Math.round(money * 100.0) / 100.0));
                                 //返回最新余额
                                 return "Use【参数符】OK【参数符】Money【参数符】" + money;
                             }
@@ -524,7 +524,7 @@ public class Function {
                                     sql.setCall(data[2], "0");
                                     sql.setMoney(data[2], String.valueOf(money));
                                     sql.addMobileLog(data[2], "通话", String.valueOf(used));
-                                    sql.addMobileLog(data[2], "余额", String.valueOf(money));
+                                    sql.addMobileLog(data[2], "余额", String.valueOf(Math.round(money * 100.0) / 100.0));
                                     //返回最新余额
                                     return "Use【参数符】OK【参数符】Money【参数符】" + money;
                                 }
@@ -546,7 +546,7 @@ public class Function {
                                 //用户剩余话费充足，执行SQL
                                 sql.setMoney(data[2], String.valueOf(money));
                                 sql.addMobileLog(data[2], "短信", String.valueOf(used));
-                                sql.addMobileLog(data[2], "余额", String.valueOf(money));
+                                sql.addMobileLog(data[2], "余额", String.valueOf(Math.round(money * 100.0) / 100.0));
                                 //返回最新余额
                                 return "Use【参数符】OK【参数符】Money【参数符】" + money;
                             }
@@ -564,7 +564,7 @@ public class Function {
                                     sql.setMess(data[2], "0");
                                     sql.setMoney(data[2], String.valueOf(money));
                                     sql.addMobileLog(data[2], "短信", String.valueOf(used));
-                                    sql.addMobileLog(data[2], "余额", String.valueOf(money));
+                                    sql.addMobileLog(data[2], "余额", String.valueOf(Math.round(money * 100.0) / 100.0));
                                     //返回最新余额
                                     return "Use【参数符】OK【参数符】Money【参数符】" + money;
                                 }
@@ -586,7 +586,7 @@ public class Function {
                                 //用户剩余话费充足，执行SQL
                                 sql.setMoney(data[2], String.valueOf(money));
                                 sql.addMobileLog(data[2], "流量", String.valueOf(used));
-                                sql.addMobileLog(data[2], "余额", String.valueOf(money));
+                                sql.addMobileLog(data[2], "余额", String.valueOf(Math.round(money * 100.0) / 100.0));
                                 //返回最新余额
                                 return "Use【参数符】OK【参数符】Money【参数符】" + money;
                             }
@@ -604,7 +604,7 @@ public class Function {
                                     sql.setFlow(data[2], "0");
                                     sql.setMoney(data[2], String.valueOf(money));
                                     sql.addMobileLog(data[2], "流量", String.valueOf(used));
-                                    sql.addMobileLog(data[2], "余额", String.valueOf(money));
+                                    sql.addMobileLog(data[2], "余额", String.valueOf(Math.round(money * 100.0) / 100.0));
                                     //返回最新余额
                                     return "Use【参数符】OK【参数符】Money【参数符】" + money;
                                 }

@@ -159,7 +159,7 @@ public class Function {
         r = rc[0];
         //开始选择并输入
         do {
-            System.out.print("\n请输入套餐编号：");
+            System.out.print("请输入套餐编号：");
             comboType = input.next();
             if (RegexCheck.isPInteger(comboType)) {
                 if (r >= Integer.parseInt(comboType)) {
@@ -272,7 +272,7 @@ public class Function {
      * @param password
      */
     public boolean mobileStop(Scanner input, String mobileNum, String password) {
-        System.out.print("【警告】该操作会删除当前账户，无法恢复，请知悉！\n[请输入帐号" + mobileNum + "绑定的使用者的姓名]：");
+        System.err.print("【警告】该操作会删除当前账户，无法恢复，请知悉！\n[请输入帐号" + mobileNum + "绑定的使用者的姓名]：");
         String name = input.next();
         System.out.print("即将执行【删除】帐号[" + mobileNum + "]，请输入\"执行\"，如果需要放弃，请输入任意字符：");
         if (input.next().equals("执行")) {
@@ -426,8 +426,8 @@ public class Function {
             System.out.print("请输入重置的金额：");
             String moneyStr = input.next();
             if (RegexCheck.isPDouble(moneyStr)|RegexCheck.isPInteger(moneyStr)) {
-                System.out.print("即将为帐号[" + mobileNum + "]充值，金额[" + moneyStr + "]，是否继续！\n[继续请输入\"已知悉\"，其他放弃操作]：");
-                if (input.next().equals("已知悉")) {
+                System.out.print("即将为帐号[" + mobileNum + "]充值，金额[" + moneyStr + "]，是否继续！\n[继续请输入\"Y\"，其他放弃操作]：");
+                if (input.next().equals("Y")) {
                     obj.cmd(ctt.send("AddMoney【参数符】" + mobileNum + "【参数符】" + moneyStr));
                     return true;
                 } else {
