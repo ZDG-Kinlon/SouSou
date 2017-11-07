@@ -10,7 +10,7 @@ public class Function {
     private StringBuilder sb;
     private SQL sql;
     private String[][] result;
-    private DecimalFormat df = new DecimalFormat("#.00");
+    private DecimalFormat df = new DecimalFormat("######0.00");
 
     public Function() {
         //初始化数据库访问
@@ -169,8 +169,9 @@ public class Function {
         帐号存在性判断省去了
          */
         String[] userInfo = sql.getMobileByUser(data[1])[0];
-        double money = Double.parseDouble(userInfo[5]);
+        double money = Double.parseDouble(df.format(Double.parseDouble(userInfo[5])));
         money += Double.parseDouble(data[2]);
+        money=round(money);
         sql.setMoney(data[1], String.valueOf(money));
         sql.addMobileLog(data[1], "充值", String.valueOf(money));
         return "AddMoney【参数符】OK【参数符】" + data[1] + "【参数符】" + money;
@@ -202,6 +203,7 @@ public class Function {
             String[][] comboInfo = sql.getCombo(data[3]);
             //检查用户的余额是否足够支付新套餐
             double money = Double.parseDouble(userInfo[0][5]) - Double.parseDouble(comboInfo[0][2]);
+            money=round(money);
             if (money < 0) {
                 return "ChangeCombo【参数符】Money";
             }
@@ -225,7 +227,7 @@ public class Function {
         //密码验证
         if (!userInfo[0][1].equals(data[2])) {
             return "【参数符】Error【参数符】无权限访问用户的注册数据";
-        }else {
+        } else {
             return "【参数符】All【参数符】" + strArr2str(userInfo, "【分列符】", "【分行符】");
         }
     }
@@ -307,6 +309,7 @@ public class Function {
         String[] comboInfo = sql.getCombo(data[4])[0];
         //检查用户的余额是否足够支付新套餐
         double money = Double.parseDouble(data[5]) - Double.parseDouble(comboInfo[2]);
+        money=round(money);
         if (money < 0) {
             return "ChangeCombo【参数符】Money";
         }
@@ -341,7 +344,7 @@ public class Function {
                 setResult(sql.getMobileByUser(data[2]));
                 //登陆状态验证，操作必须在离线状态完成
                 if (!getResult()[0][2].equals("0")) {
-                    sql.setMobileOnOffLine(data[2],false);
+                    sql.setMobileOnOffLine(data[2], false);
                 }
                 //验证姓名和手机号匹配
                 setResult(sql.getMobileByUser(data[2]));
@@ -363,7 +366,7 @@ public class Function {
                 setResult(sql.getMobileByUser(data[2]));
                 //登陆状态验证，操作必须在离线状态完成
                 if (!getResult()[0][2].equals("0")) {
-                    sql.setMobileOnOffLine(data[2],false);
+                    sql.setMobileOnOffLine(data[2], false);
                 }
                 //验证姓名和手机号匹配
                 setResult(sql.getMobileByUser(data[2]));
@@ -499,6 +502,7 @@ public class Function {
                         if ("0".equals(comboInfo[3])) {
                             //套餐中没有通话，检查余额
                             money -= used * Double.parseDouble(overMoney[0]);
+                            money=round(money);
                             if (money < 0) {
                                 //余额不足
                                 return "Use【参数符】NoEnvMoney【参数符】" + (0.0 - money);
@@ -516,6 +520,7 @@ public class Function {
                             if (userCall < 0) {
                                 //套餐中通话不足，要使用超出收费，检查余额
                                 money -= (0 - userCall) * Double.parseDouble(overMoney[0]);
+                                money=round(money);
                                 if (money < 0) {
                                     //余额不足，返回缺少多少钱
                                     return "Use【参数符】NoEnvMoney【参数符】";
@@ -539,6 +544,7 @@ public class Function {
                         if ("0".equals(comboInfo[4])) {
                             //套餐中没有短信，检查余额
                             money -= used * Double.parseDouble(overMoney[1]);
+                            money=round(money);
                             if (money < 0) {
                                 //余额不足，返回缺少多少钱
                                 return "Use【参数符】NoEnvMoney【参数符】" + (0.0 - money);
@@ -556,6 +562,7 @@ public class Function {
                             if (userMess < 0) {
                                 //套餐中短信不足，要使用超出收费，检查余额
                                 money -= (0 - userMess) * Double.parseDouble(overMoney[1]);
+                                money=round(money);
                                 if (money < 0) {
                                     //余额不足，返回缺少多少钱
                                     return "Use【参数符】NoEnvMoney【参数符】" + (0.0 - money);
@@ -579,6 +586,7 @@ public class Function {
                         if ("0".equals(comboInfo[5])) {
                             //套餐中没有流量，检查余额
                             money -= used * Double.parseDouble(overMoney[2]);
+                            money=round(money);
                             if (money < 0) {
                                 //余额不足，返回缺少多少钱
                                 return "Use【参数符】NoEnvMoney【参数符】" + (0.0 - money);
@@ -596,6 +604,7 @@ public class Function {
                             if (userFlow < 0) {
                                 //套餐中短信不足，要使用超出收费，检查余额
                                 money -= (0 - userFlow) * Double.parseDouble(overMoney[2]);
+                                money=round(money);
                                 if (money < 0) {
                                     //余额不足，返回缺少多少钱
                                     return "Use【参数符】NoEnvMoney【参数符】" + (0.0 - money);
@@ -686,6 +695,15 @@ public class Function {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * 保留两位小数
+     * @param num 小数
+     * @return 四舍五入后的小数
+     */
+    private double round(double num){
+        return (Math.round(num*100.0+0.000000000000001))/100.0;
     }
 
 }
