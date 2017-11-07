@@ -224,6 +224,7 @@ public class SQL {
      * @param info      消费信息
      */
     public void addMobileLog(String mobileNum, String type, String info) {
+        info=String.valueOf(Math.round(Double.parseDouble(info)*100.0)/100.0);
         db.runSQL("" +
                 "INSERT INTO \n" +
                 "mobile_log \n" +

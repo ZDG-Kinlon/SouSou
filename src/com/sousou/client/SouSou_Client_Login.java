@@ -35,7 +35,7 @@ public class SouSou_Client_Login {
         this.name = tempArr[1];
         this.password = password;
         this.comboType = tempArr[3];
-        this.money = tempArr[4];
+        this.money =String.valueOf(Math.round(Double.parseDouble(tempArr[4])*100.0)/100.0);
         this.call = tempArr[5];
         this.mess = tempArr[6];
         this.flow = tempArr[7];
@@ -53,7 +53,7 @@ public class SouSou_Client_Login {
         this.name = re[3];
         this.password = password;
         this.comboType = re[0];
-        this.money = re[5];
+        this.money = String.valueOf(Math.round(Double.parseDouble(re[5])*100.0)/100.0);
         this.call = re[6];
         this.mess = re[7];
         this.flow = re[8];

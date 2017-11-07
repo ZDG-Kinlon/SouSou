@@ -355,7 +355,7 @@ public class Function {
         if (input.next().equals("Y")) {
             //向服务端请求全部的套餐种类，并输出
             comboInfo = str2arr(obj.cmd(ctt.send("GetComboType")));
-            int r = strArrPrint(comboInfo, ".\t")[0];
+            int r = strArrPrint(comboInfo, null)[0];
             //开始选择并输入
             do {
                 System.out.print("\n请输入套餐编号：");
@@ -370,11 +370,13 @@ public class Function {
                                 if (input.next().equals("exit")) {
                                     break;
                                 }
+                                break;
                             case "Money":
                                 System.err.println("请输入任意字符后重试，或输入\"exit\"退出");
                                 if (input.next().equals("exit")) {
                                     break;
                                 }
+                                break;
                             case "Password":
                                 break;
                             case "IsLogin":
@@ -423,7 +425,7 @@ public class Function {
             //帐号输入
             System.out.print("请输入重置的金额：");
             String moneyStr = input.next();
-            if (RegexCheck.isPDouble(moneyStr)) {
+            if (RegexCheck.isPDouble(moneyStr)|RegexCheck.isPInteger(moneyStr)) {
                 System.out.print("即将为帐号[" + mobileNum + "]充值，金额[" + moneyStr + "]，是否继续！\n[继续请输入\"已知悉\"，其他放弃操作]：");
                 if (input.next().equals("已知悉")) {
                     obj.cmd(ctt.send("AddMoney【参数符】" + mobileNum + "【参数符】" + moneyStr));

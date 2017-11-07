@@ -96,6 +96,7 @@ public class Resolve {
         switch (data[1]) {
             case "OK":
                 System.out.println("服务端：执行成功");
+                data[3]= String.valueOf(Math.round(Double.parseDouble(data[3])*100.0)/100.0);
                 switch (data[2]) {
                     case "Call":
                         System.out.println("服务端：当前套餐中的【通话时长】还有：" + data[3]);
@@ -140,7 +141,7 @@ public class Resolve {
                 return "NoEnvFlow";
 
             case "NoEnvMoney":
-                System.out.println("服务端：用户余额不足，请充值");
+                System.err.println("服务端：用户余额不足，请充值");
                 return "NoEnvMoney";
             default:
                 break;
