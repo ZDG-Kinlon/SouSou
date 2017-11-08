@@ -99,20 +99,21 @@ public class Resolve {
                 switch (data[2]) {
                     case "Call":
                         System.out.println("服务端：当前套餐中的【通话时长】还有：" + data[3]);
-                        return "Call";
+                        break;
                     case "Mess":
                         System.out.println("服务端：当前套餐中的【短信条数】还有：" + data[3]);
-                        return "Mess";
+                        break;
                     case "Flow":
                         System.out.println("服务端：当前套餐中的【剩余流量】还有：" + data[3]);
-                        return "Flow";
+                        break;
                     case "Money":
                         data[3]= String.valueOf(Math.round(Double.parseDouble(data[3])*100.0)/100.0);
                         System.out.println("服务端：当前套餐中的【剩余金额】还有：" + data[3]);
-                        return "Money";
+                        break;
                     default:
                         return null;
                 }
+                return "OK";
             case "Password":
                 System.err.println("服务端：密码验证错误");
                 break;

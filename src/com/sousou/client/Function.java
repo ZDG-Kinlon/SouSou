@@ -67,7 +67,7 @@ public class Function {
             System.out.println("口口口口口口口口口口口口口口口口口口口");
             System.out.println("口口口口口口口口口口口口口口口口口口口");
             //开启二级主界面
-            SouSou_Client_Login main = new SouSou_Client_Login(userInfo,password);
+            SouSou_Client_Login main = new SouSou_Client_Login(userInfo, password);
             main.main(input);
         }
         //没有登录成功
@@ -83,48 +83,54 @@ public class Function {
         int[] rc;
         int r;
         String data;
-        String mobileNum = "";
+        String mobileNum="";
         String password;
         String name;
         String comboType;
         String money;
 
         //S    1.输入手机号
-        data = obj.cmd(ctt.send("GetNoUsedMobile【参数符】9"));//向服务端请求未注册的手机号，请求9个
-        dataArr = str2arr(data);
-        System.out.println("服务端：以下是还没有注册的手机号");
-        rc = strArrPrint(dataArr, ".\t");
-        r = rc[0];
-        //获取输入信息
-        do {
-            System.out.print("请选择一个编号，或输入一个手机号：");
-            String inputTemp = input.next();
-            if (inputTemp.length() < 11) {
-                //输入的是编号
-                if (RegexCheck.isPInteger(inputTemp)) {
-                    int selectNum=Integer.parseInt(inputTemp);
-                    if(selectNum<=r & selectNum>0){
-                        mobileNum = dataArr[selectNum-1][0];
-                        System.out.println("选择的手机号为["+mobileNum+"]");
-                        break;
-                    }else{
-                        System.err.println("输入的编号超出范围，请重试");
+        retry:do {
+            data = obj.cmd(ctt.send("GetNoUsedMobile【参数符】9"));//向服务端请求未注册的手机号，请求9个
+            dataArr = str2arr(data);
+            System.out.println("服务端：以下是还没有注册的手机号");
+            rc = strArrPrint(dataArr, ".\t");
+            r = rc[0];
+            System.out.println((r+1)+".\t(更换一批新号码)");
+            //获取输入信息
+            do {
+                System.out.print("请选择一个编号，或输入一个手机号：");
+                String inputTemp = input.next();
+                if (inputTemp.length() < 11) {
+                    //输入的是编号
+                    if (RegexCheck.isPInteger(inputTemp)) {
+                        int selectNum = Integer.parseInt(inputTemp);
+                        if (selectNum <= r & selectNum > 0) {
+                            mobileNum = dataArr[selectNum - 1][0];
+                            System.out.println("选择的手机号为[" + mobileNum + "]");
+                            break retry;
+                        } else if (selectNum == (r + 1)) {
+                            //重新获取
+                            continue retry;
+                        } else {
+                            System.err.println("输入的编号超出范围，请重试");
+                        }
+                    } else {
+                        System.err.println("输入的编号错误，请重试");
                     }
                 } else {
-                    System.err.println("输入的编号错误，请重试");
-                }
-            } else {
-                //借助正则表达式检测输入的手机号是否正确，规则：139开头11位手机号
-                if (RegexCheck.isMatch("139[0-9]{8}", inputTemp)) {
-                    mobileNum = inputTemp;
-                    break;
-                } else {
-                    System.err.println("[" + inputTemp + "]不是我们的帐号，请输入任意字符后重试，或输入\"exit\"退出");
-                    if (input.next().equals("exit")) {
-                        break;
+                    //借助正则表达式检测输入的手机号是否正确，规则：139开头11位手机号
+                    if (RegexCheck.isMatch("139[0-9]{8}", inputTemp)) {
+                        mobileNum = inputTemp;
+                        break retry;
+                    } else {
+                        System.err.println("[" + inputTemp + "]不是我们的帐号，请输入任意字符后重试，或输入\"exit\"退出");
+                        if (input.next().equals("exit")) {
+                            break retry;
+                        }
                     }
                 }
-            }
+            } while (true);
         } while (true);
         //E    1.输入手机号
 
@@ -156,6 +162,13 @@ public class Function {
         //输出套餐信息
         System.out.println("编号\t名称\t月租[元/月]\t通话时长[分]\t短信条数[条]\t上网流量[GB]");
         rc = strArrPrint(dataArr, null);
+        //向服务端请求超出套餐后的收费标准
+        String dataCombo = obj.cmd(ctt.send("GetComboOverMoney"));
+        String[] temp = str2arr(dataCombo)[0];
+        System.out.println("超出套餐后的资费：");
+        System.out.println("通话[分钟/元]：" + temp[0]);
+        System.out.println("短信[条数/元]：" + temp[1]);
+        System.out.println("流量[GB/元]：" + temp[2]);
         r = rc[0];
         //开始选择并输入
         do {
@@ -211,6 +224,13 @@ public class Function {
         //向服务端请求全部的套餐种类
         String data = obj.cmd(ctt.send("GetComboType"));
         strArrPrint(str2arr(data), null);
+        //向服务端请求超出套餐后的收费标准
+        String dataCombo = obj.cmd(ctt.send("GetComboOverMoney"));
+        String[] temp = str2arr(dataCombo)[0];
+        System.out.println("超出套餐后的资费：");
+        System.out.println("通话[分钟/元]：" + temp[0]);
+        System.out.println("短信[条数/元]：" + temp[1]);
+        System.out.println("流量[GB/元]：" + temp[2]);
     }
 
     /**
@@ -233,7 +253,7 @@ public class Function {
             name = input.next();
 
             //生成向服务端发送的信息字符串（重置密码识别符："RePassword"），1验证信息
-            if (obj.cmd(ctt.send("RePassword【参数符】1【参数符】" + mobileNum + "【参数符】" + name))==null) {
+            if (obj.cmd(ctt.send("RePassword【参数符】1【参数符】" + mobileNum + "【参数符】" + name)) == null) {
                 System.err.println("请输入任意字符后重试，或输入\"exit\"退出");
                 if (input.next().equals("exit")) {
                     break;
@@ -276,12 +296,12 @@ public class Function {
         String name = input.next();
         System.out.print("即将执行【删除】帐号[" + mobileNum + "]，请输入\"执行\"\n如果需要放弃，请输入任意字符：");
         if (input.next().equals("执行")) {
-            String re=obj.cmd(ctt.send("MobileStop【参数符】" + mobileNum + "【参数符】" + password + "【参数符】" + name));
-            if (re==null) {
+            String re = obj.cmd(ctt.send("MobileStop【参数符】" + mobileNum + "【参数符】" + password + "【参数符】" + name));
+            if (re == null) {
                 return false;
-            } else  if(re.equals("OK")){
+            } else if (re.equals("OK")) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         } else {
@@ -326,23 +346,28 @@ public class Function {
         String[] useItem = emu[rdSelect];
         //3.发送使用请求
         String re = obj.cmd(ctt.send("Use【参数符】0【参数符】" + mobileNum + "【参数符】" + password + "【参数符】" + useItem[0] + "【参数符】" + useItem[1]));
-        if (re == null || re.equals("NoEnvMoney") | re.equals("Password") | re.equals("IsLogin")) {
+        if (re == null || re.equals("NoEnvMoney")|re.equals("Password") | re.equals("IsLogin")) {
             //欠费状态异常未使用
             return false;
-        } else {
+        } else if(re.equals("NoEnvCall")|re.equals("NoEnvMess")|re.equals("NoEnvFlow")) {
             //可以使用需要提示验证
             System.out.print("是否继续[Y继续/exit放弃]：");
             if (input.next().equals("exit")) {
-                return true;
+                return false;
             } else {
                 re = obj.cmd(ctt.send("Use【参数符】1【参数符】" + mobileNum + "【参数符】" + password + "【参数符】" + useItem[0] + "【参数符】" + useItem[1]));
                 if (re == null) {
                     return false;
-                } else {
+                } else if(re.equals("OK")){
                     return true;
                 }
             }
+        }else if(re.equals("OK")){
+            return true;
+        }else{
+            return false;
         }
+        return false;
     }
 
     /**
@@ -410,10 +435,10 @@ public class Function {
      * @param mobileNum
      */
     public void logOut(String mobileNum, String password) {
-        String re=obj.cmd(ctt.send("LogOut【参数符】" + mobileNum + "【参数符】" + password));
-        if (re==null) {
+        String re = obj.cmd(ctt.send("LogOut【参数符】" + mobileNum + "【参数符】" + password));
+        if (re == null) {
             System.err.println("服务端：下线失败");
-        }else if(re.equals("OK")){
+        } else if (re.equals("OK")) {
             System.out.println("服务端：下线成功");
         }
     }
@@ -431,7 +456,7 @@ public class Function {
             //帐号输入
             System.out.print("请输入重置的金额：");
             String moneyStr = input.next();
-            if (RegexCheck.isPDouble(moneyStr)|RegexCheck.isPInteger(moneyStr)) {
+            if (RegexCheck.isPDouble(moneyStr) | RegexCheck.isPInteger(moneyStr)) {
                 System.out.print("即将为帐号[" + mobileNum + "]充值，金额[" + moneyStr + "]，是否继续！\n[继续请输入\"Y\"，其他放弃操作]：");
                 if (input.next().equals("Y")) {
                     obj.cmd(ctt.send("AddMoney【参数符】" + mobileNum + "【参数符】" + moneyStr));
@@ -455,11 +480,11 @@ public class Function {
      * @return 新套餐名称，密码，登录状态，姓名，套餐编号，余额，时长，短信，流量
      */
     public String[] upDataUser(String mobileNum, String password) {
-        String temp=obj.cmd(ctt.send("GetUserInfo【参数符】" + mobileNum + "【参数符】" + password));
+        String temp = obj.cmd(ctt.send("GetUserInfo【参数符】" + mobileNum + "【参数符】" + password));
         String[] userInfo = str2arr(temp)[0];
         String[][] comboInfo = str2arr(obj.cmd(ctt.send("GetComboType")));
         int comboNum = Integer.parseInt(userInfo[4]);
-        String comboName = comboInfo[comboNum-1][1];
+        String comboName = comboInfo[comboNum - 1][1];
         String[] re = new String[9];
         System.arraycopy(userInfo, 0, re, 0, 9);
         re[0] = comboName;

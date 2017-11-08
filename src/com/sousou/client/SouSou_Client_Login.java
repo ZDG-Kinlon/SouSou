@@ -98,14 +98,14 @@ public class SouSou_Client_Login {
                     case 2:
                         System.out.println("开始执行--------------使用嗖嗖-------------");
                         if (obj.useSouSou(input, this.mobileNum, this.password)) {
-                            update(this.mobileNum, password);
+                            update(this.mobileNum, this.password);
                         }
                         System.out.println("执行完毕--------------使用嗖嗖-------------");
                         break;
                     case 3:
                         System.out.println("开始执行--------------话费充值-------------");
                         if (obj.addMoney(input, this.mobileNum)) {
-                            update(this.mobileNum, password);
+                            update(this.mobileNum, this.password);
                         } else {
                             return;
                         }
@@ -117,7 +117,7 @@ public class SouSou_Client_Login {
                         if (re==null) {
                             return;
                         }else if(re.equals("OK")){
-                            update(this.mobileNum, password);
+                            update(this.mobileNum, this.password);
                         }
                         System.out.println("执行完毕--------------套餐变更-------------");
                         break;
