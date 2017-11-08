@@ -10,7 +10,6 @@ public class Function {
     private StringBuilder sb;
     private SQL sql;
     private String[][] result;
-    private DecimalFormat df = new DecimalFormat("######0.00");
 
     public Function() {
         //初始化数据库访问
@@ -169,7 +168,7 @@ public class Function {
         帐号存在性判断省去了
          */
         String[] userInfo = sql.getMobileByUser(data[1])[0];
-        double money = Double.parseDouble(df.format(Double.parseDouble(userInfo[5])));
+        double money = Double.parseDouble(userInfo[5]);
         money += Double.parseDouble(data[2]);
         sql.setMoney(data[1], String.valueOf(money));
         sql.addMobileLog(data[1], "充值", String.valueOf(Math.round(money * 100.0) / 100.0));
