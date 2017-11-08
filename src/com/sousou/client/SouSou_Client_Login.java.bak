@@ -91,9 +91,9 @@ public class SouSou_Client_Login {
                 select = Integer.parseInt(str);
                 switch (select) {
                     case 1:
-                        System.out.println("开始执行------------账单查询------------");
+                        System.out.println("开始执行------------本月账单查询------------");
                         obj.getMobileInfo(this.mobileNum, this.password);
-                        System.out.println("执行完毕------------账单查询------------");
+                        System.out.println("执行完毕------------本月账单查询------------");
                         break;
                     case 2:
                         System.out.println("开始执行--------------使用嗖嗖-------------");
