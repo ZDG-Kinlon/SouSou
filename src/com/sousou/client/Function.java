@@ -292,7 +292,7 @@ public class Function {
      * @param password
      */
     public boolean mobileStop(Scanner input, String mobileNum, String password) {
-        System.err.print("【警告】该操作会删除当前账户，无法恢复，请知悉！\n[请输入帐号" + mobileNum + "绑定的使用者的姓名]：");
+        System.err.print("【警告】该操作会删除当前账户，无法恢复，账户余额不予退回，请知悉！\n[请输入帐号" + mobileNum + "绑定的使用者的姓名]：");
         String name = input.next();
         System.out.print("即将执行【删除】帐号[" + mobileNum + "]，请输入\"执行\"\n如果需要放弃，请输入任意字符：");
         if (input.next().equals("执行")) {
